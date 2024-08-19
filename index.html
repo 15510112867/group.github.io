@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>填写名称</title>
+</head>
+<body>
+    <h1>请输入12个名称</h1>
+    <form id="nameForm">
+        <div>
+            <input type="text" name="name" placeholder="名称1" required><br>
+            <input type="text" name="name" placeholder="名称2" required><br>
+            <input type="text" name="name" placeholder="名称3" required><br>
+            <input type="text" name="name" placeholder="名称4" required><br>
+            <input type="text" name="name" placeholder="名称5" required><br>
+            <input type="text" name="name" placeholder="名称6" required><br>
+            <input type="text" name="name" placeholder="名称7" required><br>
+            <input type="text" name="name" placeholder="名称8" required><br>
+            <input type="text" name="name" placeholder="名称9" required><br>
+            <input type="text" name="name" placeholder="名称10" required><br>
+            <input type="text" name="name" placeholder="名称11" required><br>
+            <input type="text" name="name" placeholder="名称12" required><br>
+            <!-- 重复上面的input直到12个 -->
+        </div>
+        <button type="submit">提交</button>
+    </form>
+
+    <h2>随机分组结果</h2>
+    <div id="result"></div>
+
+    <script>
+        document.getElementById('nameForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            // 获取输入的12个名称
+            const formData = new FormData(event.target);
+            let names = [];
+            for (let pair of formData.entries()) {
+                names.push(pair[1]);
+            }
+
+            // 随机打乱名称
+            names = names.sort(() => Math.random() - 0.5);
+
+            // 分4组
+            const groups = [[], [], [], []];
+            for (let i = 0; i < names.length; i++) {
+                groups[i % 4].push(names[i]);
+            }
+
+            // 显示分组结果
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = '';
+            groups.forEach((group, index) => {
+                const groupDiv = document.createElement('div');
+                groupDiv.innerHTML = `<strong>组 ${index + 1}:</strong> ${group.join(', ')}`;
+                resultDiv.appendChild(groupDiv);
+            });
+        });
+    </script>
+</body>
+</html>
